@@ -11,6 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Uloz pliki w foldery
+        run: |
+          J=src/main/java/pl/easybot
+          R=src/main/resources
+          mkdir -p $J/bot $J/screen $J/util $R/assets/easybot/lang
+          mv_if() { [ -f "$1" ] && mv "$1" "$2"/ || true; }
+          for f in Bot BotManager LogLine; do mv_if $f.java $J/bot; done
+          for f in BotScreen ErrorsScreen ConsoleScreen; do mv_if $f.java $J/screen; done
+          for f in Config EasyBotMod; do mv_if $f.java $J; done
+          for f in LogView Texts Ui; do mv_if $f.java $J/util; done
+          mv_if fabric.mod.json $R
+          mv_if en_us.json $R/assets/easybot/lang
+          mv_if pl_pl.json $R/assets/easybot/lang
+          find src -type f
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
