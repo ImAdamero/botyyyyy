@@ -34,7 +34,7 @@ public final class LogView {
 
     public void render(DrawContext ctx, TextRenderer tr, int x, int y, int w, int h, List<Text> entries) {
         ctx.fill(x, y, x + w, y + h, Ui.LOG_BG);
-        ctx.drawBorder(x, y, w, h, Ui.BORDER);
+        Ui.border(ctx, x, y, w, h, Ui.BORDER);
 
         int innerW = Math.max(40, w - 16);
         List<OrderedText> rows = new ArrayList<>();
