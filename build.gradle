@@ -23,28 +23,30 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-    // Klient protokolu Minecrafta dla botow - pakowany do jara (jar-in-jar)
+    // Klient protokolu Minecrafta dla botow - jego klasy wkladamy prosto do jara (nizej)
     implementation "org.geysermc.mcprotocollib:protocol:${project.mcpl_version}"
-    include "org.geysermc.mcprotocollib:protocol:${project.mcpl_version}"
 }
 
-// Biblioteki, ktore Minecraft juz dostarcza - nie pakujemy ich drugi raz
-configurations.include {
-    // pakuj tez zaleznosci przechodnie (adventure, cloudburst nbt/math itd.)
-    transitive = true
+// Biblioteki, ktorych Minecraft NIE ma - wkladamy je do jara moda
+// (netty, gson, fastutil, slf4j itd. dostarcza Minecraft, wiec ich tu nie ma)
+def shadePrefixes = [
+        'org.geysermc.mcprotocollib:',
+        'net.kyori:',
+        'org.cloudburstmc:',
+        'org.cloudburstmc.'
+]
 
-    exclude group: 'io.netty'
-    exclude group: 'com.google.code.gson'
-    exclude group: 'com.google.guava'
-    exclude group: 'it.unimi.dsi'
-    exclude group: 'org.slf4j'
-    exclude group: 'org.apache.logging.log4j'
-    exclude group: 'org.jetbrains', module: 'annotations'
-    exclude group: 'com.google.code.findbugs'
-    exclude group: 'org.checkerframework'
-    exclude group: 'com.google.errorprone'
-    exclude group: 'commons-io'
-    exclude group: 'org.apache.commons'
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.incoming.artifacts.artifacts
+                .findAll { a ->
+                    def name = a.id.componentIdentifier.displayName
+                    shadePrefixes.any { p -> name.startsWith(p) }
+                }
+                .collect { a -> zipTree(a.file) }
+    }
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', '**/module-info.class'
 }
 
 processResources {
