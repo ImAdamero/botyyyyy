@@ -292,7 +292,7 @@ public class BotScreen extends Screen {
 
         // lista botow
         ctx.fill(px + 6, listTop, px + pw - 6, listBottom, Ui.LOG_BG);
-        ctx.drawBorder(px + 6, listTop, pw - 12, listBottom - listTop, Ui.BORDER);
+        Ui.border(ctx, px + 6, listTop, pw - 12, listBottom - listTop, Ui.BORDER);
 
         int count = currentCount();
         int visible = visibleRows();
