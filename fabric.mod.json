@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "easybot",
+  "version": "${version}",
+  "name": "EasyBot",
+  "description": "Menedzer botow z osobna konsola dla kazdego bota i ogolna konsola bledow.",
+  "authors": ["EasyBot"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["pl.easybot.EasyBotMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
