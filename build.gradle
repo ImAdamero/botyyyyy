@@ -30,6 +30,9 @@ dependencies {
 
 // Biblioteki, ktore Minecraft juz dostarcza - nie pakujemy ich drugi raz
 configurations.include {
+    // pakuj tez zaleznosci przechodnie (adventure, cloudburst nbt/math itd.)
+    transitive = true
+
     exclude group: 'io.netty'
     exclude group: 'com.google.code.gson'
     exclude group: 'com.google.guava'
