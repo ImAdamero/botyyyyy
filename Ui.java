@@ -24,7 +24,14 @@ public final class Ui {
 
     public static void panel(DrawContext ctx, int x, int y, int w, int h) {
         ctx.fill(x, y, x + w, y + h, PANEL);
-        ctx.drawBorder(x, y, w, h, BORDER);
+        border(ctx, x, y, w, h, BORDER);
+    }
+
+    public static void border(DrawContext ctx, int x, int y, int w, int h, int color) {
+        ctx.fill(x, y, x + w, y + 1, color);
+        ctx.fill(x, y + h - 1, x + w, y + h, color);
+        ctx.fill(x, y + 1, x + 1, y + h - 1, color);
+        ctx.fill(x + w - 1, y + 1, x + w, y + h - 1, color);
     }
 
     public static String duration(long millis) {
